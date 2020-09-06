@@ -1,0 +1,270 @@
+
+Page 1
+CH559 Evaluation Board User Manual
+1
+USB MCU CH559 Evaluation Board Description
+Version: V1.5
+http://wch.cn
+1. Hardware part
+1.1 Development board
+Figure 1.1.3 CH558&9MINIEVT
+Figure 1.1.1 CH559EVT
+Page 2
+CH559 Evaluation Board User Manual
+2
+Figure 1.1.2 CH559MINIEVT
+1.2 Development board main chip and function description
+(1). Chip working power selection: chip voltage selection, VCC and +5V are short-circuited, VDD33 is left floating, the working voltage of CH559 is selected as 5V; VCC
+Short-circuit with 3V3, short-circuit with VDD33 and 3V3, and choose 3.3V as the working voltage of CH559;
+(2), Evaluation board power input:
+Input the voltage of 8-15V through the P1 power adapter socket, as shown in the P1 port of Figure 1.1.1;
+Input 5V voltage directly through USB, as shown in figure 1.1.1 and figure 1.1.2 USB port;
+Directly input 5V or 3.3V voltage through the VCC and GND pins. Both Figure 1.1.1 and Figure 1.1.2 can be powered by VCC and GND;
+(3) Reset: C15 does not weld by default, if welding, the reset time will be extended;
+(4) The TF card is operated in SPI mode, and R1 needs to be welded with a 0Ω resistor when in use;
+(5) The serial Flash uses SPI0 to operate, and R6 needs to be soldered with a 0Ω resistor when in use;
+(6) Connect the LED indicator to P4.0~P4.3, and the pin outputs low level to light up the corresponding LED;
+(7) P5.4/P5.5 support iRS485 data transmission and reception, when in use, R16/R18 is welded with 20K resistance, and R17 is connected with 120Ω resistance;
+(8) The physical connection of the externally expanded RAM adopts the direct address mode, the usage refers to the routine XBUS.C, and J4 should be short-circuited when in use;
+2. Description of evaluation board data package
+Source: www.wch.cn search for CH559
+File name: CH559EVT.ZIP
+Information package:
+Header file (C, assembly)
+Evaluation board schematic
+PCB drawing
+Routine
+2.1 CH559.uvproj
+Function: CH559 keil4 project file, header file, delay function, serial port 0 initialization and other common function definitions;
+2.2 ADC folder
+Function: ADC interrupt (query) mode manual and automatic acquisition, ADC sampling clock setting, voltage comparison function definition;
+2.3 CHIP_ID folder
+Page 3
+CH559 Evaluation Board User Manual
+3
+Function: Get the function definition of the chip's unique ID number;
+2.4 DataFlash folder
+Function: DataFlash erase read and write function definition;
+2.5 Encryption folder
+Function: Introduction and description of chip commonly used encryption methods;
+2.6 GPIO folder
+Function: GPIO settings and GPIO interrupt instructions;
+2.7 IAP folder
+Function: CH559 user program jumps to IAP upgrade demonstration and instruction document, and provides host computer software and source code;
+2.8 LED_CTRL folder
+Function: CH559LED control card demonstration, support U disk to update the display content and power down data without losing;
+2.9 PWM folder
+Function: PWM1&2 initialization, PWM duty cycle setting function;
+2.10 SPI0 folder
+Function: SPI0 master slave mode initialization and data transmission and reception demonstration, master operation CH376, slave connection to other C51 MCU;
+2.11 SPI1 folder
+Function: SPI0 host mode initialization and data sending and receiving demonstration, the host operates CH376;
+2.12 Timer0 folder
+Function: Timer 0 initialization and timer and counter use function definition;
+2.13 Timer1 folder
+Function: Timer 1 initialization and timer and counter use function definition;
+2.14 Timer2 folder
+Function: Timer 2 initialization and timer and counter use function definition, timer 2 capture function definition;
+2.15 Timer3 folder
+Function: Timer 3 initialization and timer and counter use function definition, timer 3 capture function definition and PWM3 setting and use;
+2.16 UART0 folder
+Function: Serial 0 initialization and interrupt sending and receiving examples;
+2.17 WDOG folder
+Function: watchdog initialization and feeding;
+2.18 XBUS folder
+Function: Parallel bus initialization and data transceiver function definition;
+2.19 USB_LIB folder
+Function: USB file system library;
+2.20 USB folder
+A. DEVICE folder
+Simulate USB keyboard and mouse routines, support some commands;
+To simulate a manufacturer's custom device, you need to install the CH372 driver, which can be debugged through 372test.exe (batch data receiving and sending, interrupt transmission);
+B. HOST folder
+USB host application example, initialize and enumerate the devices connected to the USB port, support level 1 external HUB, can operate USB keyboard and mouse and HUB,
+Printer, including HID command processing;
+C. U_DISK
+Read and write files in byte mode, including file creation, deletion, modification of file attributes, and modification of file names;
+Read and write files in sector mode, including file creation, deletion, modification of file attributes, and modification of file names;
+Create folders and file creation;
+Enumerate files in the root directory or specified directory;
+2.21 PUB evaluation board description
+Page 4
+CH559 Evaluation Board User Manual
+4
+Function: Evaluation board description, evaluation board schematic diagram
+3. Instructions for MCU ISP download software
+3.1 Preparation before download
+3.1.1 ISP change
+Important: Because the ISP tool is upgraded and updated, the chip BOOT version prior to V2.30 needs to be selected on the ISP tool V2.40 and above
+Select the supported BOOT version. The following takes ISPTool (V2.40) as an example. The latest BOOT is supported by default.
+Download via USB: No settings are required, fully compatible.
+Download via serial port: If you don’t know the specific BOOT version, please consult a technician or salesperson.
+BOOT version <V2.30, set as shown
+, Check it means the setting is successful, if the setting is successful, the ISP software name will be displayed
+Shown as:
+.
+BOOT version ≥ V2.30, set as shown in the figure
+.
+3.1.2 USB download
+a. Select the chip power supply voltage according to 1.2 (1);
+b. Hold
+，Connect the USB Host/Device port to the PC;
+c. Release the Download button;
+d. Use ISP software to download, refer to 3.3 (1) for details;
+3.1.3 Serial port download
+a. Select the chip power supply voltage according to 1.2 (1);
+b. Serial port download uses the P02 (RXD) and P03 (TXD) pins of the chip to connect TXD, RXD and GND with the computer serial port;
+d.
+(1) Button to download: press and hold
+, Connect to the PC for power supply through the USB Host/Device port, release the button;
+(2) Download without buttons: select the serial port number in the ISP tool, click download, and then connect to the PC through the USB Host/Device port for power supply;
+e. Use ISP software to download, refer to 3.3 (2) for details;
+Software: WCHISPToolISP tool needs to be installed. The USB driver is included in the installation package and will be automatically installed after the device is powered on.
+Online download link: http://wch.cn/download/WCHISPTool_Setup_exe.html
+3.2 ISP software function description
+Main functions of WCHISPToolISP software:
+1. Perform single download or batch download or verification of CH559 through the USB interface;
+2. The serial port performs a single download of CH559 or download verification one by one at a specified interval;
+3. EEPROM read and write;
+4. Support download in HEX or BIN format;
+4. Support the saving and file import of the initial settings of the interface;
+Page 5
+CH559 Evaluation Board User Manual
+5
+5. Support downloading statistics display, and save operation records to designated files;
+6. In the USB download mode, it supports dynamic plug and unplug of the device;
+7. ISP software supports simplified Chinese and English;
+Figure 3.1.1 Run the main interface of WCHISPTool.exe
+3.3 Software instructions
+(1) Download MCU program via USB:
+a. Select chip series: click on the "8-digit CH55X series" tab page, such as
+；
+b. Select chip model: select "CH559" in the "chip model" list, such as
+；
+c. Select download method: select "USB download" in the "download method" list, such as
+；
+d. Download configuration: set the download configuration in the "Download Configuration" column;
+Page 6
+CH559 Evaluation Board User Manual
+6
+e. Select the download device: you can select the specified device in the "USB Device List";
+If the device is connected to the PC and the software detects it, the following figure 3.2 "USB List" will display "Type
+No. CH559…… Equipment No. 1";
+If the device is not detected, you can check whether the chip power connection is normal, whether the USB is connected, etc.;
+Figure 3.3.1
+f. Select the download file: If IAP is not enabled in the download configuration, just select the corresponding download file for "User Program File";
+If you enable IAP, you need to select the corresponding download for "IAP program file" and "User program file"
+file;
+g. Single download: Click the "Download (D)" button to download a single device
+Batch download: If the download type is "USB download", click the "Batch download (B)" button, multiple devices will be downloaded at the same time
+Download
+If the download type is "Serial download", click the "Batch download (B)" button, and then click
+Loading interval", as shown in Figure 3.5;
+To detect the access of the device and automatically download until you click the "Stop (S)" button to end the batch download;
+h. If "Automatically run the program after downloading" is selected in the download configuration, the MCU will automatically exit the download mode after the download is completed, and automatically load
+Run the user program; if it is not selected, you need to manually reset the hardware or re-power on, load and run the user program.
+i. After the download is over, the software will display the current download status in the "Download History" column, and the download is successful as shown in Figure 3.3.2;
+Figure 3.3.2
+(2), serial port download MCU program:
+a. Select chip series: click on the "8-digit CH55X series" tab page;
+b. Select the chip model: select "CH559" in the "Chip model" list;
+c. Select the download method: select "Serial Download" in the "Download Method" list;
+d. Download configuration: set the download configuration in the "Download Configuration" column;
+e. Select the download device: You can select the serial port number connected to the evaluation board in the "Serial Device List":
+Page 7
+CH559 Evaluation Board User Manual
+7
+Figure 3.3.3
+f. Select the download file: If IAP is not enabled, just select the corresponding download file for the "User Program File";
+If you enable IAP, you need to select the corresponding download for "IAP program file" and "User program file"
+file;
+g. Single download: Click the "Download (D)" button to download a single device
+Batch download: If the download type is "Serial download", click the "Batch download (B)" button, and click the "Serial batch download
+The download interval time is to detect the device's access and then download automatically, until you click the "Stop (S)" button to end the batch download;
+Interval time for detecting device insertion,
+Figure 3.3.4
+h. If you select "Automatically run the program after downloading", the MCU will automatically exit the download mode and automatically load and run the user program; if not
+If selected, you need to manually power on the hardware before loading and running the user program.
+i. When the download is over, the software will display the current download status in the "Download History" column, and the download is successful as shown in Figure 3.3.5;
+Figure 3.3.5
+(3) MCU program verification:
+a. Perform ISP download steps a, b, c, d, e, f;
+b. Click on the title bar
+Icon or the "Function" -> "Verify" button in the menu bar to program the MCU code and the specified "User
+"Program file" is compared, and the setting of "Download configuration" is compared with the configuration during MCU programming.
+(4), MCU built-in EEPROM read and write
+a. Perform ISP download steps a, b
+b. Click
+Icon, read, write and save EEPROM in the pop-up "DataFlash" window;
+(5) Language interface for ISP tool selection
+(6), ISP tool configuration save
+a. The ISP tool supports the configuration saving function, which supports saving the current ISP tool configuration and generating
+Configuration file,
+The directory can be set by yourself, and it is in the same directory as the ISP tool by default.
+Page 8
+CH559 Evaluation Board User Manual
+8
+b. The ISP tool supports importing the configuration saved in a. The suffix .INI file in the ISP tool installation directory is searched by default, and the ISP tool is set to
+Saved configuration.
+c. Restore the default configuration.
+4. Create a project-compilation tool KEIL
+4.1 Run the compiler
+Click "Project", select "New μVision Project..." as shown in the figure below, and a dialog box will pop up, as shown in figure 3.1.1 below, select Create
+The directory of the project, enter the file name, and click "Save".
+Figure 4.1.1
+4.2 MCU device library addition and selection
+(1) Open WCHISPTool (V2.6 and above), select Function→Add WCH MCU to KEIL device library. As shown in Figure 4.2.1.
+At this time, the software will prompt "WCH MCU library added successfully" (Figure 4.2.2).
+Figure 4.2.1
+Figure 4.2.2
+(2) Open the Keil C51 tool and create a project. Select CH554 chip according to 1~3 shown in Figure 4.2.3. After confirming, pop up Figure 4.2.4
+In the window shown, click "No".
+Page 9
+CH559 Evaluation Board User Manual
+9
+Figure 4.2.3
+Figure 4.2.4
+4.3 File addition
+(1) After the project file is opened or created, you need to add or create a new program file (.C or .ASM), as shown in the figure below, right-click "Source
+Group1" select "Add Files To Group'Source Group1'"
+Figure 4.3.1
+(2) Find the directory where the .C or .ASM file is located, select the file, and click "Add" to add it to the project.
+Page 10
+CH559 Evaluation Board User Manual
+10
+Figure 4.3.2
+3.4 Compile
+Click on
+, Figure 4.4.1 appears, check "Create HEX File", click "OK", press F7 or
+Compile and generate ".HEX"
+document.
+Figure 4.4.1
+5. Modification records
+version
+date
+Description
+V1.0
+2015.5.27
+Original Issue
+V1.1
+2015.10.16
+1. Add the description of the evaluation board of CH559MINIEVT;
+2. Re-adjust the download instructions;
+3. Add description of IAP program download;
+V1.2
+2016.12.08
+1. Add the description of the evaluation board of CH559MINIEVTV13;
+2. ISP adds serial port batch burning function;
+V1.3
+2017.03.06
+1. ISP tool upgrade, download instructions step adjustment;
+Page 11
+CH559 Evaluation Board User Manual
+11
+2. Add EVT data description;
+V1.4
+2018.02.28
+1. ISP tool upgrade, modify the instructions;
+V1.5
+2018.07.30
+1. Add CH55x device library and device selection

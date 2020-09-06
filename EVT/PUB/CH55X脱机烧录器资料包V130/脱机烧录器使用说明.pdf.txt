@@ -1,0 +1,358 @@
+
+Page 1
+CH55X multi-port offline burner instruction
+Version: V1.5
+1. Hardware description
+1.1 Base plate
+1.2 DIP adapter board
+Suitable for CH557, CH558, CH559 models.
+Suitable for CH551, CH552, CH553, CH554 models.
+Note: Red indicates PIN No. 1.
+Page 2
+1.3 Mini offline tool
+2. Instructions for use
+2.1 Function mode description
+The CH5XX multi-port offline burning tool supports a variety of working modes. The mode can be selected through the dial switch. For details, see the introduction in the following chapters.
+This section mainly introduces the function description of the writer, as shown in Table 2.1:
+Table 2.1
+Mode number
+Pattern type
+Mode selection
+DIP switch
+Mode description
+Mode 0
+Configuration mode
+X000
+1. Configure the number of downloads;
+2. The waiting time after the download is complete;
+3. PORT0-PORT7 port selection;
+4. Machine programming signal enable;
+5. See 2.2 for details;
+Mode 1
+Object code pre-stored
+X001
+Write the target code into the offline tool for external programming, only supports USB
+the way.
+1. Choose the correct mode;
+2. Turn on the power switch;
+3. Connect USB0 to PC;
+4. Open the ISP tool, see 2.3 for details;
+Mode 2
+USB interface external
+Burn
+X010
+PORT0-PORT7 are externally burned via USB, and PORT0 port supports
+Machine control interface (START, BUSY, NG, OK).
+1. Choose the correct mode;
+2. Turn on the power switch;
+3. PORT0-PORT7 external chips enter BOOT mode by themselves
+(Except CH558/CH559);
+PORT0-PORT7 download in turn, see 2.4 for details;
+DIP socket programming, see 1.2 DIP adapter board, PORT0 port support machine
+Device control interface (START, BUSY, NG, OK).
+1. Choose the correct mode;
+2. Turn on the power switch;
+3. After the DIP socket is inserted into the chip, it will download automatically, see 2.5 for details;
+Page 3
+Mode 3
+UART interface external
+Burn
+X011
+UART PORT burns externally through serial port, supports machine control interface
+(START, BUSY, NG, OK).
+1. Choose the correct mode;
+2. Turn on the power switch;
+3. The external board or chip enters BOOT mode by itself, see 2.6 for details;
+Mode 4
+PC ISP directly download
+Load
+X100
+Connect the PC directly via USB0, and manually place the chip on the DIP socket
+download.
+1. Choose the correct mode;
+2. Turn on the power switch;
+3. Connect USB0 to PC;
+Open the ISP tool, see 2.7 for details;
+Mode 5
+Production record statistics
+X101
+USB0 is inserted into the U disk, the latest download record can be written into the U disk, the file
+The name "production record. TXT", including the chip model, successfully recorded, lost
+Failure record and other information
+1. Choose the correct mode;
+2. Turn on the power switch;
+3. Insert USB0 into the U disk;
+See 2.8 for details;
+Mode 6
+Program verification
+X110
+PORT0-PORT7 compare target chip code and pre-stored via USB
+Code.
+1. Choose the correct mode;
+2. Turn on the power switch;
+3. The external chip of PORT0-PORT7 enters BOOT mode by itself;
+PORT0-PORT7 are checked in turn, see 2.9 for details;
+Mode 7
+Self-test mode
+X111
+Writer software and hardware self-test mode
+1. Choose the correct mode;
+2. Turn on the power switch;
+3. See 2.10 for details;
+2.2 Mode 0 (default setting of the writer)
+Writer settings, configuration information is as follows, the configuration steps are as follows:
+1. When the writer is powered off, the mode selection switch selects "X000", such as
+；
+2. 9-12V power supply input, turn on the power switch, digital tube display
+；
+3. Open the special configuration tool and check the "download configuration" option according to actual needs;
+4. After the selection is complete, click Configure.
+Configuration options
+Factory default configuration
+Optional
+Download limit
+Unlimited times
+0-99999 optional
+Download port selection
+USB0/PORT0
+PORT0-PORTn polling
+Port download completion waiting time
+500ms
+Optional, unit ms
+Machine control signal enable
+shut down
+Only PORT0 support, single port download
+Page 4
+Power off after port download is complete
+Turn on
+Disable enable, port 5V continuous output
+The specific configuration and software are as follows:
+2.3 Mode 1 (code pre-download)
+Code pre-download is to write the target code into the burner. The pre-load mode only supports USB mode. The specific steps are as follows:
+3. When the writer is powered off, the mode selection switch selects "X001", such as
+；
+4. 9-12V power supply input, turn on the power switch, digital tube display
+；
+2. Open the host computer programming tool WCHISPTool, select WCHISPTool (V2.50 and above), such as
+, And then select the model according to the actual chip to be downloaded, and select the "Download configuration" option according to actual needs.
+Select the preloaded hex file, as shown in the figure below;
+3. (Optional) If you need to erase DataFLash, write all 0XFF, as shown in the figure below;
+4. (Optional) If you need to write DataFLash, there are 2 ways, as shown below;
+Method 1, direct address writing, is suitable for a small amount of DataFLash writing.
+Way 1
+Page 5
+Method 2, direct file loading, is suitable for the overall multi-address writing DataFLash situation.
+Way 2
+5. If the download is successful, the short name of the buzzer will sound once, and the status will be displayed as shown in the figure;
+6. If the download fails, perform step 1 again.
+2.4 Mode 2 (USB programming interface)
+The USB programming interface supports direct chip programming and target board programming, and the pre-stored target file is written to the target chip/board.
+2.4.1. USB interface programming target board
+USB interface programming target board supports up to 8 ports sequential programming, optional PORT0-PORTn (N<=7) any port, specific configuration reference
+2.2 (Mode 0).
+1. After the configuration is completed, the writer is powered off, and the writer mode selects X010, as shown in the figure
+；
+2. 9-12V power supply input, turn on the power switch, digital tube display
+；
+3. Force the target board into BOOT, connect P46 to GND when CH558/CH559 is powered on, CH551/CH552/CH554 use this programmer
+Will be forced to enter BOOT;
+4. The writer polls the port in turn, finds the device and automatically downloads;
+5. The download is successful, the success count is increased by 1, the port success indicator is always on, and the buzzer beeps 2 short times, set according to 2.2 (mode 0)
+Output status, such as how long to wait to start the next download, whether the port is powered off after the download, etc.;
+Control signal timing:
+A) Successful programming
+Page 6
+B)Failed to program
+6. If the download fails, the failure count is increased by 1, the port connection and success indicator flashes, the buzzer keeps beeping, and the corresponding port status indicator
+Flashing, set the output status according to 2.2 (mode 0);
+2.4.2.USB interface programming target chip
+USB interface programming target chip supports up to 8 ports sequential programming, optional PORT0-PORTn (N<=7) any port, specific configuration parameters
+Exam 2.2 (Mode 0). The board comes with a set of bases for placing chips, such as 1.2.
+For specific operations, refer to 2.4.1. .
+2.5 Mode 3 (Serial download mode)
+Serial download mode.
+2.6 Mode 4 (Direct download from USB interface PC)
+USB interface PC direct download is only supported by DIP socket.
+1. After the configuration is completed, the writer is powered off, and the writer mode is selected as X100, as shown in the figure
+；
+2. 9-12V power supply input, turn on the power switch, digital tube display
+；
+3. Insert the chip base of the corresponding model into the DIP socket and fix it;
+4. The writer automatically queries the device connection, and the ISP tool on the PC side selects the corresponding configuration, and clicks to download;
+5. If the download is successful, the success count is increased by 1, the port success indicator is always on, the buzzer beeps 2 short, and the digital tube displays the success count value;
+Page 7
+6. If the download fails, the failure count is increased by 1, the port connection and success indicator flashes, and the buzzer keeps beeping shortly;
+2.7 Mode 5 (Production Record Statistics Mode)
+Production record statistical mode.
+2.8 Mode 6 (Check Mode)
+The USB verification mode supports up to 8 ports to be verified sequentially, and any port PORT0-PORTn (N<=7) can be selected. For specific configuration, refer to 2.2 (mode
+Formula 0), support to compare the pre-stored target file with the target chip/board code, and output the verification status.
+1. After the configuration is completed, the writer is powered off, and the writer mode is selected as X110, as shown in the figure
+；
+2. 9-12V power supply input, turn on the power switch, digital tube display
+；
+3. Force the target board into BOOT, connect P46 to GND when CH558/CH559 is powered on, CH551/CH552/CH554 use this programmer
+Will be forced to enter BOOT;
+4. The writer polls the port in turn, finds the device and automatically verifies it;
+Output status
+5. If the verification fails, the failure count is increased by 1, the port connection and success indicator flashes, and the buzzer keeps beeping, according to 2.2 (mode 0)
+Set output status;
+2.9 Mode 7 (Writer self-test mode)
+Burner software and hardware self-test mode, used for burner hardware self-test.
+1. After the configuration is complete, the writer is powered off, and the writer mode is selected as X111, as shown in the figure
+；
+2. 9-12V power supply input, turn on the power switch, the digital tube will display all 0 to all F in sequence, such as
+；
+3. The port connection indicator and status indicator are always on, and the power indicator is on or off according to the setting;
+4. The software and hardware are normal, the port success indicator is always on, the buzzer beeps 2 short times, and the output state is set according to 2.2 (mode 0);
+5. The software and hardware are abnormal, and the digital tube is in error state;
+3. Instructions for using Mini offline tool
+3.1 Mini tool function mode description
+CH5XX Mini offline burning tool supports multiple working modes. The mode is selected by the mode configuration pin. For details, see the following chapters
+Introduction, this section mainly introduces the function description of the writer, as shown in Table 3.1:
+chart 3.1
+Mode number
+Pattern type
+Mode selection
+(MODE1&MODE0)
+Mode description
+Mode 0
+Configuration mode
+00
+1. Configure the number of downloads;
+Page 8
+2. The waiting time after the download is complete;
+3. Only PORT0 can be selected;
+4. Machine programming signal enable;
+See 3.2 for details
+Mode 1
+Object code pre-stored
+01
+Write the target code into the offline tool, only supports USB mode.
+1. Choose the correct mode;
+2. Turn on the power switch;
+3. USB access to PC;
+4. Open the ISP tool, see 3.3 for details;
+Mode 2
+Self-test mode
+10
+Mini burner software and hardware self-test mode
+1. Choose the correct mode;
+2. Turn on the power switch;
+3. See 3.4 for details;
+Mode 3
+USB/UART external
+Burn
+11
+External programming via USB/UART, supporting machine control connection
+Mouth (START, BUSY, NG, OK).
+1. Choose the correct mode;
+2. Turn on the power switch;
+3. The chip connected to the USB/serial port enters BOOT mode by itself
+(Except CH558/CH559);
+3.2 Mini mode 0 (the default setting of the writer)
+Writer settings, configuration information is as follows, the configuration steps are as follows:
+1. When the writer is powered off, connect MODE1&MODE0 to GND;
+2. Insert the USB into the PC;
+3. Open the offline burner configuration tool and check the "Download configuration" option according to actual needs;
+4. After the selection is complete, click Configure.
+Configuration options
+Factory default configuration
+Optional
+Download limit
+Unlimited times
+0-99999 optional
+Download port selection
+USB0/PORT0
+USB0/PORT0
+Port download completion waiting time
+500ms
+Optional, unit ms
+Machine control signal enable
+shut down
+Open (both USB/UART support)
+Power off after port download is complete
+Turn on
+Disable enable, port 5V continuous output
+The specific configuration and software are as follows:
+Page 9
+3.3 Mini mode 1 (code pre-download)
+Code pre-download is to write the target code into the burner. The pre-load mode only supports USB mode. The specific steps are as follows:
+1. The writer is powered off, MODE1 is connected to GND, and MODE0 is left floating;
+2. Insert the USB into the PC;
+3. Open the upper computer programming tool WCHISPTool, select WCHISPTool (V2.50 and above), such as
+, And then select the model according to the actual chip to be downloaded, and select the "Download configuration" option according to actual needs.
+Select the preloaded hex file, as shown in the figure below;
+4. (Optional) If you need to erase DataFLash, write all 0XFF, as shown in the figure below;
+5. (Optional) If you need to write DataFLash, there are 2 ways, as shown below;
+Method 1, direct address writing, is suitable for a small amount of DataFLash writing.
+Way 1
+Method 2, direct file loading, is suitable for the overall multi-address writing DataFLash situation.
+Way 2
+6. If the download is successful, the short name of the buzzer will sound once, and the status will be displayed as shown in the figure;
+Page 10
+7. If the download fails, perform step 1 again.
+3.4 Mini mode 2 (burner self-test mode)
+Mini burner software and hardware self-test mode, used for burner hardware self-test.
+1. After the configuration is completed, the writer is powered off, MODE1 is left floating, and MODE0 is connected to GND;
+2. Insert the USB into the PC;
+3. The computer prompts for unrecognized equipment, ignore it;
+4. The software and hardware are normal, and the red and blue indicator lights flash slowly;
+5. The software and hardware are abnormal, and the red and blue indicator lights flash quickly;
+3.5 Mini mode 3 (USB/UART batch programming)
+Mini offline writer supports USB and UART methods for batch programming, and writes pre-stored target files to target chips/boards.
+3.5.1. USB interface programming
+1. After the configuration is completed, the writer is powered off, MODE1 is suspended, and MODE0 is suspended;
+2. VCC5 power supply input 5V power supply;
+3. Force the target board into BOOT, connect P46 to GND when CH558/CH559 is powered on, CH551/CH552/CH554 use this programmer
+Will be forced to enter BOOT;
+4. The USB is inserted into the USB port of the device to be downloaded, and the blue light (connection indication) of the device is found to be on, and the download is automatically performed;
+5. The download is successful, the success count is increased by 1, the port red light (success indicator) is always on, and the output status is set according to 3.2 (mode 0)
+Status, such as how long to wait to start the next download, whether the port is powered off after the download, etc.;
+Limit the number of downloads. When the number of downloads reaches the upper limit, the red and blue lights will flash;
+Control signal timing:
+B) Successful programming
+Page 11
+B)Failed to program
+6. If the download fails, the failure count is increased by 1, the red light (success indicator) flashes, and the output state is set according to 3.2 (mode 0);
+3.5.2. UART interface programming
+1. After the configuration is completed, the writer is powered off, MODE1 is suspended, and MODE0 is suspended;
+2. VCC5 power supply input 5V power supply;
+3. Force the target board to enter BOOT, connect P46 to GND when CH558/CH559 is powered on, and connect P36 to CH551/CH552/CH554 when powered on
+V33;
+4. TXD and RXD are respectively connected to the serial port of the chip to be downloaded. After the handshake is successful, the blue light (connection indication) is always on, and the download is automatic;
+5. If the download is successful, the success count is increased by 1, the red light (success indicator) is always on, and the output status is set according to 3.2 (mode 0),
+Such as how long to wait to start the next download, whether the port is powered off after the download, etc.;
+Limit the number of downloads. When the number of downloads reaches the upper limit, the red and blue lights will flash;
+Control signal timing:
+C) Successful programming
+Page 12
+B)Failed to program
+6. If the download fails, the failure count is increased by 1, the red light (success indicator) flashes, and the output state is set according to 3.2 (mode 0);
+4. Modification records
+Firmware version
+date
+Description
+V1.0
+2016.08.09
+Original Issue
+V1.1
+2016.08.25
+Increase the debounce delay of USB connection, USB mode
+Download LED status changes, D3 as the connection
+Status indicator, D4 as the start download indicator
+V1.2
+2016.09.01
+Add the function of erasing DataFlash
+V1.3
+2017.06.14
+Added support for models CH554, CH552, CH551
+Add PC download mode
+V1.4
+2018.01.15
+New version of multi-port burner released
+OffLineWCH_ISP_Tool
+V1.5
+2018.05.16
+Increase support for single port
+Mini_OffLineWCH_ISP_Tool
