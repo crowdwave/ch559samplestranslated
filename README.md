@@ -7,3 +7,5 @@ files originally from CH554EVT.ZIP
 
 All files owned by http://www.wch-ic.com under whatever license they published them under.
 
+There seems to be more samples here: https://www.electrodragon.com/w/CH55X_SDK
+
