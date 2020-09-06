@@ -1,0 +1,99 @@
+
+Page 1
+CH559 IAP function instruction
+Version: V1.2
+http://wch.cn
+1 Overview
+This document is mainly to explain how to use IAP function routines, and to give a brief introduction to other IAP upgrade methods. Of CH559
+IAP mainly includes the following main contents:
+|--CH559 IAP function instruction.pdf
+|--CH559IAP
+|
+|-- CH559_IAP.uvproj: CH559 IAP project file
+|
+|-- CH559_IAP.C: IAP function C program, support serial port and USB mode to upgrade user program
+|
+|-- CH559_IAP.H: IAP function header file
+|
+|-- CH559_IAP.hex: IAP function hex file
+|--CH559User
+|
+|-- CH559_User.uvproj: CH559 IAP user program project file
+|
+|-- CH559_Demo.C: CH559 cooperates with IAP application, enter IAP by pressing the key
+|
+|-- CH559_Demo.hex: User program hex file with IAP function
+|--CH559WINUser
+|
+|-- WCHMCUIAP_WinAPP.exe: CH559 PC tool with routine IAP, supports serial port and USB download
+2. Instructions for use
+2.1, CH559 IAP data package
+Provide a complete project file, directly open the CH559_IAP.uvproj project file, and then compile it. Produced according to compilation
+hex file size, the specific size is as shown in Figure 2.1.1, the code size, set the location of IAP storage in Flash.
+Figure 2.1.1
+Set as shown in Figure 2.1.2 below, the storage space between the start address of "Start" and 0xF000 cannot be less than that in Figure 2.1.1
+Code size, in order to facilitate the operation, the starting address is best set to an integer multiple of 1K, "Size" can be left unset, Keil will automatically set it
+File size.
+For example, the code size of IAP is 1861B, so set the minimum IAP program space to (2+N)KB (N=0,1...);
+So from 0xF000 address decrement (2+N)KB (N=0,1...), that is, 0xF000-0x400*(1+N)(N=0,1..)=0xE800, because BIN
+At the beginning of the file, a space of at least 4 bytes needs to be reserved for the jump instruction, so the IAP program sets the address as (0xE800+4);
+The initial storage address defined in the IAP program is still 0xE800, such as:
+If you use other CH55X series, you need to pay attention to the size of the Code area, and the IAP program address must be allocated in the Code;
+For example, CH558 has only 32KB Code area (IAP must be allocated before 0x8000);
+For example, CH557 has a 64KB Code area (IAP must be allocated before 0xF000);
+Page 2
+Figure 2.1.2
+2.2, CH559 User data package
+When using the IAP function, if you need to jump in the user program to upgrade, you need to define a function pointer type in the function
+Variable, the function pointer points to the starting address where the IAP program is stored in 2.1.
+When downloading the IAP program, you need to specify the download address. The download address is the same as the jump address in the program, as in this example.
+0xE800.
+If you use other CH55X series, you need to pay attention to the size of the Code area, and the IAP program address must be allocated in the Code;
+For example, CH558 has only 32KB Code area (IAP must be allocated before 0x8000);
+For example, CH557 has a 64KB Code area (IAP must be allocated before 0xF000);
+2.3. Program download
+For details on how to enter the download mode and how to download, please refer to 559/EVT/PUB/CH559.pdf;
+USB download method:
+Open WCHISPTOOL, select 8-bit CH55X single-chip microcomputer, select CH559 for chip model, select USB to download, configure
+Tick ​​according to your needs. As shown in Figure 2.3.1 below:
+Note: The ISP tool in this document needs to use V2.40 version, please pay attention.
+Page 3
+Figure 2.3.1
+When the ISP tool version is greater than or equal to V2.40, the ISP can directly obtain the IAP start address from the hex file, so there is no need to set the IAP
+address;
+When the ISP tool version <V2.40, the IAP address must be set;
+Press and hold the Download button on the Demo board, then use the USB cable to connect the P3 port to the computer, turn the switch to On to enter the download mode
+The USB device will be displayed in the USB list bar. As shown in Figure 2.3.2:
+Figure 2.3.2
+Check Enable IAP function and set the start address. Note that the start address set is the same as described in 2.2, here is
+0xE804, same as the address set in IAP project. Select IAP program CH55IAP and user program in the following two program file columns respectively
+CH559User, click to download. As shown in Figure 2.3.3:
+Page 4
+Figure 2.3.3
+Re-power on, run the user program CH559User, you can see (P40) LED3 lights up for a while and then goes out, (P42) LED5 flashes.
+2.4, CH559WINUser data package
+Open the CH559IAPDemo package, double-click to run WCHMCUIAP_WinAPP.exe. Select USB download, select program file
+CH559User. In this example, the key K4 on the Demo board is used to enter the IAP program (pressing the K4 key is equivalent to P1.3 grounding), the user can
+Modify other methods as needed. Press button K4 to release, LED5 is off, LED6 is flashing, and the frequency is faster, indicating that you are entering
+IAP program, the device appears in the device list of the application CH559WINUser, as shown in Figure 2.4.1, click download, the download is complete
+Then it will automatically reset and execute the user program.
+Figure 2.4.1
+Page 5
+Serial download method
+The demo process of serial download mode is basically the same as that of USB download mode, but there are several points to note:
+Serial port download uses two pins P0.2 and P0.3 (TTL level), P0.2 is connected to TXD, and P0.3 is connected to RXD.
+Select the correct serial port number, select the user program file, and click download.
+3. Modify the record
+version
+date
+Description
+V1.0
+2015.12.30
+Original Issue
+V1.1
+2016.12.08
+1. Because of the revision of the WCHISPTool tool, modify the IAP file;
+2. Clarify the origin and definition of the IAP address.
+V1.2
+2018.03.06
+1. The ISP tool is updated to V2.40 and the instructions for use are modified.

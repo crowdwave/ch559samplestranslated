@@ -1,0 +1,90 @@
+
+Page 1
+Chip encryption recommendations
+1 Overview
+This document will describe some encryption and decryption technologies currently in use (2015.12.30) or known as developer encryption
+Suggestion, in fact, we just want to express a kind of thought, method and simple suggestion. It is more for the developer to complete it, otherwise the encryption
+The method is the same, and its meaning is not great; in addition, since the encryption and decryption technology will become more diversified over time, the list
+The encryption and decryption methods mentioned will be affected in real time, and I hope developers can understand.
+First of all, we must clarify a concept. The use of more or more advanced encryption methods can only increase the difficulty of decryption, but cannot absolutely eliminate it.
+The chip is decrypted. With the improvement of chip reverse technology, the investment in chip decryption research is also increasing. We can always find a way to decrypt the chip.
+There is no absolutely secure encryption method. So when making a product, confidentiality is a factor, but the most important thing is the production.
+Therefore, the design cannot be made more difficult because of encryption, which affects the function of the device itself. Chip encryption and decryption
+The most important principle is to try to make the decryption cost greater than the development cost , so that the decryption has no value and meaning.
+2. Decryption technology
+The decryption technology here is not to popularize the decryption method. We must know ourselves and the enemy in order to survive all battles and protect our labor.
+Moving results. The following will list some known decryption methods. In fact, these things are also available online or on portals dedicated to decrypting chips
+There can be a simple explanation, we only need to understand its usage, and then do a targeted encryption work.
+Microcontrollers generally have internal ROM/EEPROM/FLASH for users to store programs. In order to prevent unauthorized
+The right to access or copy the internal program of the single-chip microcomputer, most of the single-chip microcomputers have an encrypted lock bit or encrypted byte to protect the on-chip program.
+If the encryption lock bit is enabled (locked) during programming, it is impossible to directly read the program in the microcontroller with a normal programmer.
+It is called copy protection or lock function.
+Currently, there are four main techniques for attacking MCUs, namely:
+(1) Software attack
+This technology usually uses the processor communication interface and exploits the security vulnerabilities of the protocol and encryption algorithm to attack. Software attackers exploit
+Vulnerability in the timing design of the erasing operation of the single-chip microcomputer. After erasing the encryption lock bit using a self-programmed program, stop the next step to erase the on-chip program memory.
+The operation of the memory data turns the encrypted single-chip microcomputer into an unencrypted single-chip, and then use the programmer to read the on-chip program.
+(2) Electronic detection attacks
+This technology usually monitors the analog characteristics of all power and interface connections during normal operation of the processor with high time resolution, and passes
+Monitor its electromagnetic radiation characteristics to carry out attacks. Because the microcontroller is an active electronic device, when it executes different instructions,
+The corresponding power consumption also changes accordingly. In this way, through the use of special electronic measuring instruments and mathematical statistical methods to analyze and detect these changes
+It can obtain specific key information in the microcontroller.
+(3), fault generation technology
+This technique uses abnormal operating conditions to cause processor errors, and then provides additional access to attack. Most widely used fault
+The attack methods include voltage shock and clock shock. Low voltage and high voltage attacks can be used to disable protection circuits or force the processor
+Perform wrong operation. Transient clock transitions will also reset the protection circuit without destroying the protected information. Power and clock transients can be
+Some processors affect the decoding and execution of a single instruction.
+(4) Probe technology
+This technique directly exposes the internal wiring of the chip, and then observes, manipulates, and interferes with the microcontroller to achieve the purpose of attack.
+For convenience, people divide the above four attack techniques into two categories, one is intrusive attacks (physical attacks), and this type of attack
+Need to destroy the package, and then spend hours or even weeks in a dedicated laboratory with the help of semiconductor test equipment, microscopes and micro-positioners
+Time will be completed. All microprobe technologies are invasive attacks. The other three methods are non-intrusive attacks.
+The film player will not be physically damaged. Non-intrusive attacks are particularly dangerous in certain situations, because the equipment required for non-intrusive attacks is usually
+It can be made and upgraded, so it is very cheap.
+Most non-intrusive attacks require the attacker to have good processor knowledge and software knowledge. In contrast, invasive probe attacks
+It does not require much initial knowledge, and a set of similar technologies can usually be used to deal with a wide range of products. Therefore, the
+Page 2
+Attacks often start with invasive reverse engineering, and the accumulated experience helps to develop cheaper and faster non-invasive attack techniques.
+The first step in an invasive attack is to remove the chip package. There are two ways to achieve this goal: the first is to completely dissolve the chip
+Encapsulate and expose metal connections. The second is to remove only the plastic package on the silicon core. The first method requires binding the chip to the test fixture
+, Use the binding table to operate. The second method requires a certain knowledge and necessary skills of the attacker, as well as personal
+Wisdom and patience, but relatively easy to operate.
+3. Recommendations for MCU encryption
+In theory, an attacker can use the above methods to break through with sufficient investment and time for any single-chip microcomputer. So, in
+When using a single-chip computer for encryption authentication or designing a system, the attacker's cost and time should be increased as much as possible. This is the system designer
+The basic principles should always be kept in mind.
+The encryption of the MCU program mainly involves several aspects: ①Prevent the internal program (HEX/BIN) of the MCU from being read ②Prevent the MCU
+After the internal program is read out, it can be used directly. ③ Prevent HEX/BIN from being decompiled (more difficult); therefore, the following suggestions are given:
+3.1. Selection suggestions
+(1) Before selecting an encryption chip, it is necessary to fully investigate and understand the new development of the MCU cracking technology, including which MCU has been
+Confirm that it can be cracked. Try not to use chips that can be cracked or of the same series and models.
+(2) The original creator of the product generally has the characteristics of large output, so relatively uncommon and unpopular single-chip microcomputers can be used to increase the imitation
+Difficulty of purchase by prostitutes.
+(3) Choose a single-chip microcomputer with new technology, new structure and short time to market.
+(4) If the design cost permits, a smart card chip with hardware self-destruction function should be selected to effectively deal with physical attacks.
+In order to protect the work results of developers, we provide chip hardware protection for CH55X series MCUs. Code cannot be
+It was read out, and we are very willing to discuss chip code protection with customers.
+3.2. Hardware design recommendations
+(1) Let the original chip manufacturer replace all the package pins of the chip;
+(2). Print the CH55X as XXXX etc., polish away the chip model and other information or reprint other models to make it fake;
+(3) Use epoxy resin + enzyme (xxx enzyme: can increase the hardness, if the chip is scrapped after it is opened), the tested circuit board is dense
+Sealed
+(4) Use bare chips to make products;
+(6) Fuse some ports with high current;
+(7) Use a four-layer board (intentionally take some more wires); set some traps on the PCB board, such as passing a blown out two to the microcontroller
+The pole tube or resistor provides high-voltage power supply, if imitated, the chip will be burnt out when power on;
+(8) If conditions permit, two single-chip microcomputers of different models can be used as mutual backup and mutual verification, thereby increasing the cost of cracking. CH55X
+Series of single-chip microcomputers, according to the actual situation of our company, if the customer meets certain conditions, we can also provide
+Chips, chip grinding, replacement of packaging materials, provision of bare chips and other services.
+3.3. Software design suggestions
+(1). When using the chip, use the ID function of the chip. After decryption, write the code to other chips.
+Different IDs will not work;
+(2). Use the ISP software to generate and burn the unique key to the specific area of ​​the single-chip microcomputer and then you need to check the key when burning the program;
+In order to activate all the encryption functions of the chip itself;
+(3) Set the password file. If you want to read the program, you must have the password file. If you are reading the program, if you enter
+If the password is wrong, the FLASH memory will be cleared automatically;
+(4) Add a chip protection program to the chip program, such as clearing the contents of all chips when there is voltage input on pin XX;
+(5) Use ISP software to encrypt the program (prevent terminal users from contacting HEX, and the program is bound to the MCU): ISP software can
+Generate a computer-based executable file. This file contains the upgrade code. After opening it, you can directly connect to the product to upgrade.
+Will be exposed to the upgrade code. This software can lock the hard disk number and implement directional installation with better confidentiality;
+(6) Other;
