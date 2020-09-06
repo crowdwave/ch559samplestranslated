@@ -3,6 +3,8 @@ ch559 source code samples translated into english
 
 note that where a file was translated I kept a copy of the original in the same folder but with a suffix of "original".
 
+translations are done manually by putting them through Google translate - I don't know if the Google translator has mangled the code in some way but hopefully not.  Even if it has, it's useful to be able to read the comments.
+
 files originally from CH554EVT.ZIP
 
 www.wch-ic.com/products/CH559.html
